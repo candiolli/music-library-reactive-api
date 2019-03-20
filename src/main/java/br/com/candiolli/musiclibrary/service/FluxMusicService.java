@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @Service
 public class FluxMusicService {
 
@@ -21,6 +23,11 @@ public class FluxMusicService {
 
     public Mono<Music> byId(String carId) {
         return musicRepository.findById(carId);
+    }
+
+    public Mono<Music> save(Music music) {
+        music.setId(UUID.randomUUID().toString());
+        return musicRepository.save(music);
     }
 
 //    public Flux<CarEvents> streams(String carId) {

@@ -17,8 +17,12 @@ public class App {
 	@Bean
 	RouterFunction<?> routes(RouteHandles routeHandles) {
 		return RouterFunctions.route(
-				RequestPredicates.GET("/music"), routeHandles::allCars)
-				.andRoute(RequestPredicates.GET("/music/{carId}"), routeHandles::carById);
+				RequestPredicates.GET("/music"), routeHandles::allMusics)
+				.andRoute(RequestPredicates.GET("/music/{musicId}"), routeHandles::musicById)
+				.andRoute(RequestPredicates.POST("/music"), routeHandles::musicCreate);
+
+
+
 //				.andRoute(RequestPredicates.GET("/cars/{carId}/events"), routeHandles::events);
 	}
 }
