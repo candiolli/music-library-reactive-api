@@ -44,3 +44,8 @@ or
 ```bash
 java -jar target\music-library-reactive-api-0.0.1-SNAPSHOT.jar
 ```  
+
+# Test 
+```bash
+curl http://localhost:8080/music/ | json_pp
+```
