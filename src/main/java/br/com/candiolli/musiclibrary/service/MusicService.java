@@ -9,11 +9,11 @@ import reactor.core.publisher.Mono;
 import java.util.UUID;
 
 @Service
-public class FluxMusicService {
+public class MusicService {
 
     private final MusicRepository musicRepository;
 
-    FluxMusicService(MusicRepository musicRepository) {
+    MusicService(MusicRepository musicRepository) {
         this.musicRepository = musicRepository;
     }
 

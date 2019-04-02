@@ -19,10 +19,10 @@ public class App {
 		return RouterFunctions.route(
 				RequestPredicates.GET("/music"), routeHandles::allMusics)
 				.andRoute(RequestPredicates.GET("/music/{musicId}"), routeHandles::musicById)
-				.andRoute(RequestPredicates.POST("/music"), routeHandles::musicCreate);
-
-
-
+				.andRoute(RequestPredicates.POST("/music"), routeHandles::musicCreate)
+				.andRoute(RequestPredicates.GET("/library"), routeHandles::allLibrarys)
+				.andRoute(RequestPredicates.GET("/library/{libraryId}"), routeHandles::libraryById)
+				.andRoute(RequestPredicates.POST("/library"), routeHandles::libraryCreate);
 //				.andRoute(RequestPredicates.GET("/cars/{carId}/events"), routeHandles::events);
 	}
 }
