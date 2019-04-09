@@ -54,7 +54,7 @@ public class RouteHandles {
     }
 
     public Mono<ServerResponse> libraryCreate(ServerRequest req) {
-        Mono<Library> library = req.bodyToMono(Library.class);
+        Mono<Librarys> library = req.bodyToMono(Library.class);
 
         Mono<ServerResponse> serverResponseMono = library
                 .flatMap(lib -> libraryService.save(lib))
