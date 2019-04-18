@@ -54,27 +54,11 @@ public class RouteHandles {
     }
 
     public Mono<ServerResponse> libraryCreate(ServerRequest req) {
-        Mono<Library> library = req.bodyToMono(Library.class);
-        //doOnError(thr -> thr.printStackTrace())
-
-        Mono<ServerResponse> serverResponseMono = library
-//                .map(lib -> {
-//                    lib.getMusicsIds()
-//                            .()
-//                            .flatMap(m -> {
-//                                musicService.byId(m).doOnError(throwable -> throwable.printStackTrace());
-//                            })
-//                            .collect(lib);
-//                })
-                .map(lib2 -> this::validate)
+        return req.bodyToMono(Library.class)
                 .flatMap(lib -> libraryService.save(lib))
                 .flatMap(p -> ServerResponse.created(URI.create("/library/" + p.getId())).build());
-        return serverResponseMono;
     }
 
-    private Mono validate(Library lib) {
-
-    }
 //    public ServerResponse.BodyBuilder musicCreate(ServerRequest serverRequest) {
 //        Mono<Music> musicMono = serverRequest.bodyToMono(Music.class);
 //        musicMono.flatMap(music -> musicService.save(music));

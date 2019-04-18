@@ -1,0 +1,4 @@
+spring:
+  data:
+    mongodb:
+      host: demo-mongo-2
