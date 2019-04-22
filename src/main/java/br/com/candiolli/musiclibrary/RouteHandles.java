@@ -4,6 +4,7 @@ import br.com.candiolli.musiclibrary.model.Library;
 import br.com.candiolli.musiclibrary.model.Music;
 import br.com.candiolli.musiclibrary.service.LibraryService;
 import br.com.candiolli.musiclibrary.service.MusicService;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -54,28 +55,25 @@ public class RouteHandles {
     }
 
     public Mono<ServerResponse> libraryCreate(ServerRequest req) {
-        return req.bodyToMono(Library.class)
+        Mono<Library> libraryMono = req.bodyToMono(Library.class);
+
+        return validate(libraryMono)
                 .flatMap(lib -> libraryService.save(lib))
-                .flatMap(p -> ServerResponse.created(URI.create("/library/" + p.getId())).build());
+                .flatMap(p -> ServerResponse.ok()
+                            .contentType(MediaType.TEXT_PLAIN)
+                            .syncBody(p))
+                .onErrorResume(e -> Mono.just("Error " + e.getMessage())
+                        .flatMap(s -> ServerResponse.ok()
+                        .contentType(MediaType.TEXT_PLAIN)
+                        .syncBody(s)));
     }
 
-//    public ServerResponse.BodyBuilder musicCreate(ServerRequest serverRequest) {
-//        Mono<Music> musicMono = serverRequest.bodyToMono(Music.class);
-//        musicMono.flatMap(music -> musicService.save(music));
-//        return ServerResponse.ok();
-//                .flatMap(music,  Music.class)
-//                .doOnError(throwable -> new IllegalStateException("oh boy... not againnn =(("));
+    private Mono<Library> validate(Mono<Library> lib) {
+//        Mono<Library> libraryMono = lib.flatMap(li -> {
+//            li.getMusicsIds().forEach(m -> musicService.byId(m).doOnError((Consumer<? super Throwable>) ServerResponse.notFound().build()));
+//        });
+        return Mono.error(new RuntimeException("Music not found"));
+    }
 
-//        return ServerResponse.ok()
-//                .body(musicService.save(music), Music.class)
-//                .doOnError(throwable -> new IllegalStateException("oh boy... not againnn =(("));
-//    }
 
-//    public Mono<ServerResponse> events(ServerRequest serverRequest) {
-//        String carId = serverRequest.pathVariable("carId");
-//        return ServerResponse.ok()
-//                .contentType(MediaType.TEXT_EVENT_STREAM)
-//                .body(musicService.streams(carId), CarEvents.class)
-//                .doOnError(throwable -> new IllegalStateException("I give up!! "));
-//    }
 }

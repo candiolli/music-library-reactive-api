@@ -7,7 +7,7 @@ services:
 
   microservice:
     build:
-      dockerfile: Dockerfile
+      dockerfile: docker/Dockerfile
       context: .
     image: silasca/music-library-reactive-api
     container_name: music-library-reactive-api
